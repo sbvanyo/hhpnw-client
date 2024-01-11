@@ -6,7 +6,7 @@ import { registerUser } from '../utils/auth'; // Update with path to registerUse
 
 function RegisterForm({ user, updateUser }) {
   const [formData, setFormData] = useState({
-    bio: '',
+    name: '',
     uid: user.uid,
   });
 
@@ -18,9 +18,8 @@ function RegisterForm({ user, updateUser }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gamer Bio</Form.Label>
-        <Form.Control as="textarea" name="bio" required placeholder="Enter your Bio" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
-        <Form.Text className="text-muted">Let other gamers know a little bit about you...</Form.Text>
+        <Form.Label>Employee Name</Form.Label>
+        <Form.Control type="text" name="name" required placeholder="what is your name" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit
@@ -31,6 +30,7 @@ function RegisterForm({ user, updateUser }) {
 
 RegisterForm.propTypes = {
   user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
   }).isRequired,
   updateUser: PropTypes.func.isRequired,
