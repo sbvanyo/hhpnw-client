@@ -20,3 +20,21 @@ a {
 body {
   background-color: #88effd;
 }
+
+.copy-btn {
+  margin: 5px;
+}
+#btn-signout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5%;
+}
+
+.navbar-brand {
+  width: 50%;
+}
+
+#logo {
+  width: 15%;
+}
