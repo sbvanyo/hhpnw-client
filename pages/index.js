@@ -1,5 +1,6 @@
 import { Button } from 'react-bootstrap';
-import { signOut } from '../utils/auth';
+import Router from 'next/router';
+// import { signOut } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
 
 function Home() {
@@ -14,9 +15,16 @@ function Home() {
         margin: '0 auto',
       }}
     >
-      <h1>Hi {user.fbUser.displayName}! </h1>
-      <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>
-        Sign Out
+      <h1>HIP HOP, PIZZA, & WANGS</h1>
+      <h4>Hi {user.fbUser.displayName}! </h4>
+      <Button variant="primary" type="button" size="lg" className="copy-btn" onClick={() => Router.push('/orders/orders')}>
+        View Orders
+      </Button>
+      <Button variant="success" type="button" size="lg" className="copy-btn" onClick={() => Router.push('/orders/new')}>
+        Create Order
+      </Button>
+      <Button variant="warning" type="button" size="lg" className="copy-btn" onClick={() => Router.push('/revenue/revenue')}>
+        View Revenue
       </Button>
     </div>
   );
