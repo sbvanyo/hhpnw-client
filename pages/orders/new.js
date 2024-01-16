@@ -1,5 +1,16 @@
-import React from 'react';
+import OrderForm from '../../components/OrderForm';
+import { useAuth } from '../../utils/context/authContext';
 
-export default function NewOrder() {
-  return <h1>New Order Form</h1>;
-}
+const NewGame = () => {
+  const { user } = useAuth();
+  return (
+    <div>
+      <h2>Create New Order</h2>
+      <OrderForm
+        user={user}
+      />
+    </div>
+  );
+};
+
+export default NewGame;
