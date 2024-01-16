@@ -16,7 +16,7 @@ function Home() {
       }}
     >
       <h1>HIP HOP, PIZZA, & WANGS</h1>
-      <h4>Hi {user.fbUser.displayName}! </h4>
+      <h4>Hi {user.name}! </h4>
       <Button variant="primary" type="button" size="lg" className="copy-btn" onClick={() => Router.push('/orders/orders')}>
         View Orders
       </Button>

@@ -18,9 +18,16 @@ a {
 }
 
 body {
-  background-color: #88effd;
+  background-color: #c89adb;
 }
 
+/* TEXT */
+h1 {
+  text-align: center;
+  margin: 5%;
+}
+
+/* BUTTONS */
 .copy-btn {
   margin: 5px;
 }
@@ -31,10 +38,37 @@ body {
   margin: 5%;
 }
 
+/* NAVBAR */
 .navbar-brand {
   width: 50%;
 }
 
+/* IMAGES */
 #logo {
   width: 15%;
+}
+
+/* CARDS */
+.order-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+#order-card {
+  width: 70%;
+}
+#order-card-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#full-order {
+  display: flex;
+}
+#customer-details {
+  background-color: rgb(15, 60, 156);
+  color: whitesmoke;
+  padding: 5%;
+  border-radius: 25px;
 }

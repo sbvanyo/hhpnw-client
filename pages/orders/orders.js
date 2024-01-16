@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import OrderCard from '../../components/OrderCard';
+import { getOrders } from '../../utils/data/orderData';
 
-export default function AllOrders() {
+function OrderHome() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    getOrders().then((data) => setOrders(data));
+  }, []);
+
   return (
-    <>
-      <h1>All Orders Go Here</h1>
-    </>
+    <article className="orders">
+      <h1>Orders</h1>
+      {orders.map((order) => (
+        <section key={`order--${order.id}`} className="order-container">
+          <OrderCard key={order.id} orderObj={order} />
+        </section>
+      ))}
+    </article>
   );
 }
+
+export default OrderHome;
