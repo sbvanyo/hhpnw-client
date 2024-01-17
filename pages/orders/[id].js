@@ -1,21 +1,18 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-// import OrderForm from '../../components/OrderForm';
-// import OrderCard from '../../components/OrderCard';
 import { Button } from 'react-bootstrap';
-// import { useAuth } from '../../utils/context/authContext';
 import { getSingleOrder, deleteOrder } from '../../utils/data/orderData';
+import { deleteOrderItem } from '../../utils/data/orderItemData';
 
 const SingleOrderDetails = () => {
   const router = useRouter();
-  // const { user } = useAuth();
   const { id } = router.query;
   const [orderDetails, setOrderDetails] = useState();
 
   useEffect(() => {
     getSingleOrder(id).then(setOrderDetails);
   }, [id]);
-  // console.warn(orderDetails);
+  console.warn(orderDetails);
 
   if (!orderDetails) {
     return <div>Loading...</div>;
@@ -24,6 +21,15 @@ const SingleOrderDetails = () => {
   const deleteThisOrder = () => {
     if (window.confirm('Are you sure you want to delete this order?')) {
       deleteOrder(id).then(() => router.push('/orders/orders'));
+    }
+  };
+
+  const removeItem = (orderItemId, itemName) => {
+    if (window.confirm(`Remove ${itemName}?`)) {
+      deleteOrderItem(orderDetails.id, orderItemId).then(() => {
+        // Refresh the order details or update state to reflect the deletion
+        getSingleOrder(id).then(setOrderDetails);
+      });
     }
   };
 
@@ -43,12 +49,17 @@ const SingleOrderDetails = () => {
 
         <div>
           <h3 style={{ padding: 20 }}>Items in this Order:</h3>
-          {/* <div id="neighborhoodPlaygrounds">
-            {neighborhoodPlaygrounds.map((playground) => (
-              <PlaygroundCard key={playground.firebaseKey} playgroundObj={playground} onUpdate={getNeighborhoodPlaygrounds} />
+          <div id="order-items-container">
+            {orderDetails.items.map((orderItem) => (
+              <section key={orderItem.id} className="order-items">
+                <div>Name: {orderItem.item.name}</div>
+                <div>Price: ${orderItem.item.price}</div>
+                <Button onClick={() => removeItem(orderItem.id, orderItem.item.name)}>Remove Item</Button>
+              </section>
             ))}
-          </div> */}
+          </div>
         </div>
+
       </div>
     </>
   );
