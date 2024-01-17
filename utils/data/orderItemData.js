@@ -24,30 +24,18 @@ const getSingleOrderItem = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createOrderItem = (orderItem) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/orderitems`, {
+const addOrderItem = (orderId, itemId) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/orders/${orderId}/add_order_item`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(orderItem),
+    body: JSON.stringify({ item: itemId }),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))
     .catch(reject);
 });
-
-// const updateOrderItem = (orderItem) => new Promise((resolve, reject) => {
-//   fetch(`${clientCredentials.databaseURL}/orderitems/${orderItem.id}`, {
-//     method: 'PUT',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(orderItem),
-//   })
-//     .then((data) => resolve(data))
-//     .catch(reject);
-// });
 
 const deleteOrderItem = (orderId, orderItemId) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/orders/${orderId}/remove_order_item`, {
@@ -61,18 +49,13 @@ const deleteOrderItem = (orderId, orderItemId) => new Promise((resolve, reject) 
     .catch(reject);
 });
 
-const getOrderItemsByOrderId = (id) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/orderitems?order_id=${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+const getMenuItems = () => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/items`, {})
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);
 });
 
 export {
-  getOrderItems, getSingleOrderItem, createOrderItem, deleteOrderItem, getOrderItemsByOrderId,
+  getOrderItems, getSingleOrderItem, addOrderItem, deleteOrderItem, getMenuItems,
 };

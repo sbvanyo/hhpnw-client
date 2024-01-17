@@ -1,18 +1,24 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { getSingleOrder, deleteOrder } from '../../utils/data/orderData';
-import { deleteOrderItem } from '../../utils/data/orderItemData';
+import { deleteOrderItem, addOrderItem, getMenuItems } from '../../utils/data/orderItemData';
 
 const SingleOrderDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const [orderDetails, setOrderDetails] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
+
+  const handleOpenModal = () => {
+    getMenuItems().then(setMenuItems);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     getSingleOrder(id).then(setOrderDetails);
   }, [id]);
-  console.warn(orderDetails);
 
   if (!orderDetails) {
     return <div>Loading...</div>;
@@ -24,10 +30,16 @@ const SingleOrderDetails = () => {
     }
   };
 
+  const createOrderItem = (itemId) => {
+    addOrderItem(orderDetails.id, itemId).then(() => window.confirm('Item sucessfully added to order')).then(() => {
+      getSingleOrder(id).then(setOrderDetails);
+    });
+  };
+
   const removeItem = (orderItemId, itemName) => {
     if (window.confirm(`Remove ${itemName}?`)) {
       deleteOrderItem(orderDetails.id, orderItemId).then(() => {
-        // Refresh the order details or update state to reflect the deletion
+        // Refresh the order details to reflect the deletion
         getSingleOrder(id).then(setOrderDetails);
       });
     }
@@ -48,7 +60,30 @@ const SingleOrderDetails = () => {
         <hr />
 
         <div>
-          <h3 style={{ padding: 20 }}>Items in this Order:</h3>
+          <div>
+            <h3 style={{ padding: 20 }}>Items in this Order:</h3>
+            <Button onClick={handleOpenModal}>Add Item</Button>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add an Item</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {menuItems.map((menuItem) => (
+                  <section key={menuItem.id} className="menu-items">
+                    <div>Name: {menuItem.name}</div>
+                    <div>Price: ${menuItem.price}</div>
+                    <Button onClick={() => createOrderItem(menuItem.id)}>Add Item</Button>
+                  </section>
+                ))}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                  Close
+                </Button>
+                {/* Add a button here to confirm adding the selected item */}
+              </Modal.Footer>
+            </Modal>
+          </div>
           <div id="order-items-container">
             {orderDetails.items.map((orderItem) => (
               <section key={orderItem.id} className="order-items">
