@@ -64,13 +64,6 @@ const deleteOrder = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getItems = () => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/items`, {})
-    .then((response) => response.json())
-    .then(resolve)
-    .catch(reject);
-});
-
 // eslint-disable-next-line import/prefer-default-export
 export {
   getOrders,
@@ -78,5 +71,4 @@ export {
   createOrder,
   updateOrder,
   deleteOrder,
-  getItems,
 };
