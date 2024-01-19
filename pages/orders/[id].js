@@ -31,7 +31,8 @@ const SingleOrderDetails = () => {
   };
 
   const createOrderItem = (itemId) => {
-    addOrderItem(orderDetails.id, itemId).then(() => window.confirm('Item sucessfully added to order')).then(() => {
+    const defaultQuantity = 1;
+    addOrderItem(orderDetails.id, itemId, defaultQuantity).then(() => window.confirm('Item sucessfully added to order')).then(() => {
       getSingleOrder(id).then(setOrderDetails);
     });
   };
@@ -86,10 +87,12 @@ const SingleOrderDetails = () => {
           </div>
           <div id="order-items-container">
             {orderDetails.items.map((orderItem) => (
-              <section key={orderItem.id} className="order-items">
-                <div>Name: {orderItem.item.name}</div>
-                <div>Price: ${orderItem.item.price}</div>
-                <Button onClick={() => removeItem(orderItem.id, orderItem.item.name)}>Remove Item</Button>
+              // eslint-disable-next-line react/no-array-index-key
+              <section key={orderItem.order_item_id} className="order-items">
+                <div>Name: {orderItem.name}</div>
+                <div>Price: ${orderItem.price}</div>
+                <div>Quantity: {orderItem.quantity}</div>
+                <Button onClick={() => removeItem(orderItem.order_item_id, orderItem.name)}>Remove Item</Button>
               </section>
             ))}
           </div>

@@ -24,13 +24,13 @@ const getSingleOrderItem = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const addOrderItem = (orderId, itemId) => new Promise((resolve, reject) => {
+const addOrderItem = (orderId, itemId, quantity) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/orders/${orderId}/add_order_item`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ item: itemId }),
+    body: JSON.stringify({ item: itemId, quantity }),
   })
     .then((response) => response.json())
     .then((data) => resolve(data))
@@ -45,6 +45,16 @@ const deleteOrderItem = (orderId, orderItemId) => new Promise((resolve, reject) 
     },
     body: JSON.stringify({ order_item: orderItemId }),
   })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      // Check if the response has content
+      if (response.status !== 204) {
+        return response.json();
+      }
+      return null; // If no content, return null
+    })
     .then(resolve)
     .catch(reject);
 });
