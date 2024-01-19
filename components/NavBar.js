@@ -6,7 +6,6 @@ import {
   Container,
   Nav,
   Button,
-  Image,
 } from 'react-bootstrap';
 import { signOut } from '../utils/auth';
 
@@ -14,7 +13,8 @@ export default function NavBar() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Link passHref href="/">
-        <Image src="images/pizza.png" alt="pizza slice clip art" id="logo" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="images/pizza.png" alt="pizza slice clip art" id="logo" />
       </Link>
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

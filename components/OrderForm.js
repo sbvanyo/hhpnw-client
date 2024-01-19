@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { createOrder, updateOrder } from '../utils/data/orderData';
+import { getMenuItems } from '../utils/data/orderItemData';
 
 const initialState = {
   name: '',
@@ -16,12 +17,11 @@ const initialState = {
 const OrderForm = ({ initialOrder, user }) => {
   const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(initialState);
+  const [menuItems, setMenuItems] = useState([]);
+  const [itemQuantities, setItemQuantities] = useState({});
 
   useEffect(() => {
-    // console.warn(initialGame);
-    // console.warn(currentGame);
-    // TODO: Get the game types, then set the state
-    // getGameTypes().then(setGameTypes);
+    getMenuItems().then(setMenuItems);
 
     if (initialOrder) {
       const formattedOrder = {
@@ -32,6 +32,27 @@ const OrderForm = ({ initialOrder, user }) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialOrder]);
+
+  useEffect(() => {
+    getMenuItems().then((items) => {
+      setMenuItems(items);
+      // Initialize item quantities from initialOrder
+      const initialQuantities = items.reduce((acc, item) => {
+        // eslint-disable-next-line react/prop-types
+        const foundItem = initialOrder?.items?.find((orderItem) => orderItem.id === item.id);
+        acc[item.id] = foundItem ? foundItem.quantity : 0;
+        return acc;
+      }, {});
+      setItemQuantities(initialQuantities);
+    });
+  }, [initialOrder]);
+
+  const handleQuantityChange = (itemId, quantity) => {
+    setItemQuantities((prev) => ({
+      ...prev,
+      [itemId]: quantity,
+    }));
+  };
 
   const handleChange = (e) => {
     // TODO: Complete the onChange function
@@ -54,11 +75,23 @@ const OrderForm = ({ initialOrder, user }) => {
       user: user.uid,
     };
 
+    // Convert item quantities to an array of items with their quantities
+    const orderItems = Object.entries(itemQuantities).map(([itemId, quantity]) => ({
+      itemId: parseInt(itemId, 10),
+      quantity: parseInt(quantity, 10),
+    })).filter((item) => item.quantity > 0);
+
+    // Include orderItems in the order object
+    const orderWithItems = {
+      ...order,
+      items: orderItems,
+    };
+
     // Send POST request to your API
     if (initialOrder) {
-      updateOrder(currentOrder.id, order).then(() => router.push(`/orders/${currentOrder.id}`));
+      updateOrder(currentOrder.id, orderWithItems).then(() => router.push(`/orders/${currentOrder.id}`));
     } else {
-      createOrder(order).then(() => router.push('/orders/orders'));
+      createOrder(orderWithItems).then(() => router.push('/orders/orders'));
     }
   };
 
@@ -95,16 +128,6 @@ const OrderForm = ({ initialOrder, user }) => {
           />
         </Form.Group>
 
-        {/* <Form.Group className="mb-3">
-          <Form.Label>Order Type</Form.Label>
-          <Form.Control
-            name="skillLevel"
-            required
-            value={Number(currentGame.skillLevel)}
-            onChange={handleChange}
-          />
-        </Form.Group> */}
-
         <Form.Group className="mb-3">
           <Form.Label>Order Type</Form.Label>
           <Form.Select
@@ -118,6 +141,22 @@ const OrderForm = ({ initialOrder, user }) => {
             <option value="in-person">in-person</option>
           </Form.Select>
         </Form.Group>
+
+        <Form.Check className="mb-3" id="form-menu" type="checkbox">
+          {menuItems.map((menuItem) => (
+            <section key={menuItem.id} className="menu-items">
+              <div>Name: {menuItem.name}</div>
+              <div>Price: ${menuItem.price}</div>
+              <input
+                type="number"
+                min="0"
+                value={itemQuantities[menuItem.id] || 0}
+                onChange={(e) => handleQuantityChange(menuItem.id, e.target.value)}
+              />
+              {/* <Button onClick={() => createOrderItem(menuItem.id)}>Add Item</Button> */}
+            </section>
+          ))}
+        </Form.Check>
 
         <Button variant="primary" type="submit">
           Submit
@@ -139,11 +178,10 @@ OrderForm.propTypes = {
     type: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
   }).isRequired,
-  // onUpdate: PropTypes.func.isRequired,
 };
 
-// GameForm.defaultProps = {
-//   initialGame: initialState,
+// OrderForm.defaultProps = {
+//   initialOrder: {},
 // };
 
 export default OrderForm;
