@@ -73,6 +73,9 @@ button {
   display: flex;
   justify-content: space-between;
 }
+#revenue-card {
+  width: fit-content;
+}
 
 
 #full-order {
