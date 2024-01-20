@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import RevenueNode from '../../components/RevenueNode';
-// import { getOrders } from '../../utils/data/orderData';
+// eslint-disable-next-line import/no-unresolved
+import RevenueTable from '../../components/revenueTable';
 import { getRevenue } from '../../utils/data/revenueData';
-import { Table } from 'react-bootstrap';
 
 function RevenueHome() {
   const [revenueNodes, setRevenueNodes] = useState([]);
@@ -13,15 +13,26 @@ function RevenueHome() {
       .catch(console.error);
   }, []);
 
+  const aggregateData = revenueNodes.reduce(
+    (acc, node) => {
+      acc.subtotal += parseFloat(node.subtotal);
+      acc.tip += parseFloat(node.tip);
+      acc.total += parseFloat(node.total);
+      return acc;
+    },
+    { subtotal: 0.0, tip: 0.0, total: 0.0 },
+  );
+
   return (
-    <div>
+    <>
       <h1>Revenue</h1>
+      <RevenueTable revenueObj={aggregateData} /> {/* Master Revenue Table */}
       {revenueNodes.map((revenue) => (
-        <section key={`revenue--${revenue.id}`} className="revenue-container">
-          <RevenueNode key={revenue.id} revenueObj={revenue} orderObj={revenue.order} />
+        <section id="revenue-container" key={`revenue--${revenue.id}`}>
+          <RevenueNode key={revenue.id} revenueObj={revenue} />
         </section>
       ))}
-    </div>
+    </>
   );
 }
 

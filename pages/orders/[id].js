@@ -54,8 +54,11 @@ const SingleOrderDetails = () => {
           <h2 className="order-item-name">Order Name: {orderDetails.name}</h2>
           <h3>Customer Phone: {orderDetails.phone}</h3>
           <h3>Customer Email: {orderDetails.email}</h3>
-          <div id="btn-holder">
-            <Button onClick={() => router.push(`/orders/edit/${orderDetails.id}`)}>Edit Order</Button>
+          <div className="btn-holder">
+            {
+              orderDetails.open
+              && <Button onClick={() => router.push(`/orders/edit/${orderDetails.id}`)}>Edit Order</Button>
+            }
             <Button onClick={deleteThisOrder}>Delete Order</Button>
           </div>
         </div>
@@ -65,7 +68,10 @@ const SingleOrderDetails = () => {
         <div>
           <div id="order-items-container">
             <h3 style={{ padding: 20 }}>Items in this Order:</h3>
-            <Button onClick={handleOpenModal}>Add Item</Button>
+            {
+              orderDetails.open
+              && <Button onClick={handleOpenModal}>Add Item</Button>
+            }
             <Modal show={showModal} onHide={() => setShowModal(false)}>
               <Modal.Header closeButton>
                 <Modal.Title>Add an Item</Modal.Title>
@@ -92,15 +98,21 @@ const SingleOrderDetails = () => {
                 <div className="order-item-name">{orderItem.name}</div>
                 <div>${orderItem.price}</div>
                 <div>Quantity: {orderItem.quantity}</div>
-                <Button onClick={() => removeItem(orderItem.order_item_id, orderItem.name)}>Remove Item</Button>
+                {
+                  orderDetails.open
+                  && <Button onClick={() => removeItem(orderItem.order_item_id, orderItem.name)}>Remove Item</Button>
+                }
               </section>
             ))}
           </div>
         </div>
 
       </div>
-      <div id="btn-holder">
-        <Button onClick={() => router.push(`/orders/checkout?id=${orderDetails.id}`)}>Continue to Checkout</Button>
+      <div className="btn-holder">
+        {
+          orderDetails.open
+          && <Button onClick={() => router.push(`/orders/checkout?id=${orderDetails.id}`)}>Continue to Checkout</Button>
+        }
       </div>
     </>
   );

@@ -27,15 +27,6 @@ const RevenueNode = ({ revenueObj }) => (
 );
 
 RevenueNode.propTypes = {
-  orderObj: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    user: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    open: PropTypes.bool.isRequired,
-    phone: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-  }).isRequired,
   revenueObj: PropTypes.shape({
     id: PropTypes.number.isRequired,
     order: PropTypes.number.isRequired,

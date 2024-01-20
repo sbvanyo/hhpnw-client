@@ -38,14 +38,20 @@ const CloseOrderForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const floatTip = parseFloat(formInput.tip) || 0;
+
     const closedOrder = {
       ...orderDetails,
       open: false,
+      payment: formInput.payment,
+      tip: floatTip,
     };
+
+    console.warn(closedOrder);
 
     updateOrder(orderDetails.id, closedOrder)
       .then(() => {
-        window.confirm('Order Confirmed!');
+        window.confirm('Order Confirmed');
         router.push('/orders/orders');
       })
       .catch((error) => {
