@@ -1,16 +1,16 @@
-import OrderForm from '../../components/OrderForm';
+import CloseOrderForm from '../../components/CloseOrderForm';
 import { useAuth } from '../../utils/context/authContext';
 
-const NewOrder = () => {
+const Checkout = () => {
   const { user } = useAuth();
   return (
     <div>
-      <h2>Create New Order</h2>
-      <OrderForm
+      <h1>Checkout</h1>
+      <CloseOrderForm
         user={user}
       />
     </div>
   );
 };
 
-export default NewOrder;
+export default Checkout;

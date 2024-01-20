@@ -21,13 +21,24 @@ body {
   background-color: #c89adb;
 }
 
+.table {
+  width: 50vw;
+}
+
 /* TEXT */
 h1 {
   text-align: center;
   margin: 5%;
+  font-weight: bold;
+}
+.order-item-name {
+  font-weight: bold;
 }
 
 /* BUTTONS */
+button {
+  margin: 5px;
+}
 .copy-btn {
   margin: 5px;
 }
@@ -36,6 +47,11 @@ h1 {
   top: 0;
   right: 0;
   margin: 5%;
+}
+.btn-holder {
+  display: flex;
+  justify-content: center;
+  margin: 5vh;
 }
 
 /* NAVBAR */
@@ -61,14 +77,23 @@ h1 {
   display: flex;
   justify-content: space-between;
 }
+#revenue-card {
+  width: fit-content;
+}
 
 
 #full-order {
   display: flex;
+  justify-content: center;
+  gap: 25px;
 }
 #customer-details {
   background-color: rgb(15, 60, 156);
   color: whitesmoke;
   padding: 5%;
   border-radius: 25px;
+  max-height: 330px;
+}
+#revenue-container {
+  display: inline-block;
 }
