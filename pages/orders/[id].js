@@ -54,6 +54,7 @@ const SingleOrderDetails = () => {
           <h2 className="order-item-name">Order Name: {orderDetails.name}</h2>
           <h3>Customer Phone: {orderDetails.phone}</h3>
           <h3>Customer Email: {orderDetails.email}</h3>
+          <h3>Order Type: {orderDetails.type}</h3>
           <div className="btn-holder">
             {
               orderDetails.open

@@ -26,7 +26,10 @@ const OrderCard = ({ orderObj }) => (
 OrderCard.propTypes = {
   orderObj: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    user: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      name: PropTypes.string,
+      uid: PropTypes.string,
+    }).isRequired,
     name: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     phone: PropTypes.string.isRequired,

@@ -14,7 +14,7 @@ export default function NavBar() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Link passHref href="/">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="images/pizza.png" alt="pizza slice clip art" id="logo" />
+        <img src="https://img.freepik.com/premium-photo/pizza-isolate-white-background-generative-ai_74760-2619.jpg?size=338&ext=jpg&ga=GA1.1.632798143.1705708800&semt=ais" alt="pizza slice clip art" id="logo" />
       </Link>
       <Container>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

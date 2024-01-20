@@ -27,7 +27,7 @@ const createOrder = (order) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateOrder = (id, postBody) => new Promise((resolve, reject) => {
+const updateOrder = (id, postBody) => new Promise((resolve) => {
   fetch(`${clientCredentials.databaseURL}/orders/${id}`, {
     method: 'PUT',
     headers: {
@@ -42,7 +42,12 @@ const updateOrder = (id, postBody) => new Promise((resolve, reject) => {
       return null;
     })
     .then((data) => resolve(data))
-    .catch(reject);
+    .catch((error) => {
+      console.error('Error updating order:', error);
+      if (error.response) {
+        console.error('Error response:', error.response);
+      }
+    });
 });
 
 const deleteOrder = (id) => new Promise((resolve, reject) => {
