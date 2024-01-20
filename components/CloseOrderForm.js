@@ -17,11 +17,11 @@ const CloseOrderForm = () => {
 
   useEffect(() => {
     if (id) {
-      getSingleOrder(id).then(setOrderDetails).catch(console.error);
+      getSingleOrder(id).then(setOrderDetails);
+    } else {
+      console.error('Invalid order ID');
     }
   }, [id]);
-
-  console.warn(orderDetails);
 
   if (!orderDetails) {
     return <div>Loading...</div>;
@@ -46,8 +46,6 @@ const CloseOrderForm = () => {
       payment: formInput.payment,
       tip: floatTip,
     };
-
-    console.warn(closedOrder);
 
     updateOrder(orderDetails.id, closedOrder)
       .then(() => {

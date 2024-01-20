@@ -11,6 +11,7 @@ const initialState = {
   phone: '',
   email: '',
   type: '',
+  id: null,
 };
 
 // initialOrder & user are props passed in from orders/[id].js
@@ -27,8 +28,11 @@ const OrderForm = ({ initialOrder, user }) => {
       const formattedOrder = {
         ...initialOrder,
         type: initialOrder.type,
+        id: initialOrder.id,
       };
       setCurrentOrder(formattedOrder);
+    } else {
+      setCurrentOrder(initialState);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialOrder]);
@@ -55,7 +59,6 @@ const OrderForm = ({ initialOrder, user }) => {
   };
 
   const handleChange = (e) => {
-    // TODO: Complete the onChange function
     const { name, value } = e.target;
     setCurrentOrder((prevState) => ({
       ...prevState,
@@ -88,7 +91,7 @@ const OrderForm = ({ initialOrder, user }) => {
     };
 
     // Send POST request to your API
-    if (initialOrder) {
+    if (currentOrder.id) {
       updateOrder(currentOrder.id, orderWithItems).then(() => router.push(`/orders/${currentOrder.id}`));
     } else {
       createOrder(orderWithItems).then(() => router.push('/orders/orders'));
@@ -170,18 +173,20 @@ OrderForm.propTypes = {
   user: PropTypes.shape({
     uid: PropTypes.string.isRequired,
   }).isRequired,
+  // eslint-disable-next-line react/require-default-props
   initialOrder: PropTypes.shape({
     name: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     phone: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  }).isRequired,
+    id: PropTypes.number,
+  }),
 };
 
-// OrderForm.defaultProps = {
-//   initialOrder: {},
-// };
+OrderForm.defaultProps = {
+  // eslint-disable-next-line react/default-props-match-prop-types
+  initialOrder: null,
+};
 
 export default OrderForm;

@@ -1,4 +1,5 @@
 @import 'bootstrap/dist/css/bootstrap.css';
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=DM+Serif+Display&family=Monoton&display=swap');
 
 html,
 body {
@@ -30,9 +31,13 @@ h1 {
   text-align: center;
   margin: 5%;
   font-weight: bold;
+  font-family: Monoton;
 }
 .order-item-name {
   font-weight: bold;
+}
+#welcome {
+  font-size: 550%;
 }
 
 /* BUTTONS */
@@ -61,7 +66,10 @@ button {
 
 /* IMAGES */
 #logo {
-  width: 15%;
+  width: 10%;
+  margin: 1vw;
+  border-radius: 50%;
+
 }
 
 /* CARDS */

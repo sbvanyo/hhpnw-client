@@ -16,7 +16,7 @@ const UpdateOrder = () => {
 
   return (
     <div>
-      <h2>Update Order</h2>
+      <h1>Update Order</h1>
       <OrderForm
         user={user}
         initialOrder={updateOrder}
